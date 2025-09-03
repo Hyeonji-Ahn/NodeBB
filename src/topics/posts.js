@@ -26,7 +26,7 @@ function newRange(start, stop) {
 	return { repliesStart: start, repliesStop: stop };
 }
 
-async function filterPosts(postData, uid, reverse){
+async function filterPosts(postData, uid, reverse) {
 	const allPosts = postData.slice();
 	postData = await user.blocks.filter(uid, postData);
 	if (allPosts.length !== postData.length) {
@@ -37,7 +37,7 @@ async function filterPosts(postData, uid, reverse){
 			}
 		});
 	}
-	return postData
+	return postData;
 }
 
 module.exports = function (Topics) {
@@ -64,7 +64,7 @@ module.exports = function (Topics) {
 		if (topicData.mainPid && start === 0) {
 			pids.unshift(topicData.mainPid);
 		}
-		let postData = await posts.getPostsByPids(pids, uid);
+		const postData = await posts.getPostsByPids(pids, uid);
 		if (!postData.length) {
 			return [];
 		}
@@ -82,7 +82,7 @@ module.exports = function (Topics) {
 		const result = await plugins.hooks.fire('filter:topic.getPosts', {
 			topic: topicData,
 			uid: uid,
-			posts:  await Topics.addPostData (filteredPosts,uid),
+			posts:  await Topics.addPostData(filteredPosts,uid),
 		});
 		return result.posts;
 	};
